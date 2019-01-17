@@ -1,0 +1,37 @@
+#service
+server:
+  port: 80
+  tomcat:
+    uri-encoding: utf-8
+  servlet:
+    context-path: /wx
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/wx_portal?characterEncoding=utf-8&useSSL=false
+  jpa:
+    show-sql: true
+
+
+enableSwagger: true
+
+wechat:
+  appId: wxa26732e5541ff033
+  appSecret: 010c9ce1c550429f5b9a4dbef6f08709
+  openAppId:
+  openAppSecret:
+
+
+projectUrl:
+  wechatMpAuthorize: http://sell.natapp4.cc
+  wechatOpenAuthorize: http://sell.natapp4.cc
+  sell: http://sell.natapp4.cc
+logging:
+  level:
+    com.web.wx.mapper: debug
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.wx.mapper.WxAccessTokenMapper">
+    <resultMap id="BaseResultMap" type="com.web.wx.model.WxAccessToken">
+        <id column="gid" property="gid" jdbcType="BIGINT"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="expires_in" property="expiresIn" jdbcType="INTEGER"/>
+        <result column="app_id" property="appId" jdbcType="VARCHAR"/>
+        <result column="app_secret" property="appSecret" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        gid, token, expires_in, app_id, app_secret, create_time
+    </sql>
+
+    <insert id="insert"  parameterType="com.web.wx.model.WxAccessToken">
+        <selectKey resultType="java.lang.Long" keyProperty="gid" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tb_wx_token
+        (token, expires_in, app_id, app_secret, create_time)
+        value (#{token, jdbcType=VARCHAR}, #{expiresIn, jdbcType=INTEGER}, #{appId, jdbcType=VARCHAR},
+            #{appSecret, jdbcType=VARCHAR}, #{createTime, jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select * from tb_wx_token
+        where gid = #{gid, jdbcType=BIGINT}
+    </select>
+
+    <select id="findLatest" resultMap="BaseResultMap">
+        select * from tb_wx_token group by create_time desc limit 0, 1
+    </select>
+</mapper>

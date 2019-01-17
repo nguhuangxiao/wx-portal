@@ -1,0 +1,17 @@
+#spring 基础配置
+spring:
+    profiles:
+        active: dev
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        serialization:
+            FAIL_ON_EMPTY_BEANS: false
+
+
+#分页配置
+pagehelper:
+    dialect: com.github.pagehelper.PageHelper
+    support-methods-arguments: true
+    params: count=countSql
+    reasonable: true
+
