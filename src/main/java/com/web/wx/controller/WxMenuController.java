@@ -2,6 +2,7 @@ package com.web.wx.controller;
 
 import com.web.wx.service.WxMenuService;
 import com.web.wx.util.Res;
+import com.web.wx.util.WxRes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,13 +25,14 @@ public class WxMenuController {
      * @return
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Res add() {
-        return null;
+    public WxRes add() {
+        String res = wxMenuService.addMenu();
+        return WxRes.buildRes(res);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Res list() {
+    public WxRes list() {
         String res = wxMenuService.list();
-        return Res.buildOk(res);
+        return WxRes.buildRes(res);
     }
 }

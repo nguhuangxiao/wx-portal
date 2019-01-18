@@ -41,6 +41,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     public void addInterceptors(InterceptorRegistry registry) {
 
+        System.out.println("111");
+
         InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
 
         //addInterceptor.excludePathPatterns("/**");
@@ -57,6 +59,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     private class SecurityInterceptor extends HandlerInterceptorAdapter {
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+           // String xmlString = WxService.doService(request);
             //获取session
             Object userObj = request.getSession().getAttribute(GLOBAL_USER_INFO);
             if(userObj != null){

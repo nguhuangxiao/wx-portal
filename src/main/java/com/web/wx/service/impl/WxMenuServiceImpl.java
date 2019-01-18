@@ -37,7 +37,7 @@ public class WxMenuServiceImpl implements WxMenuService {
         JSONArray arr = new JSONArray();
         //一级菜单
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", "今日歌曲");
+        jsonObject.put("name", "今日测歌曲");
         jsonObject.put("type", "click");
         jsonObject.put("key", "JQiI99_2OvMmv9jbJ-Go8B6gtXRPnSzvyLVz4k40jGE");
 
@@ -59,8 +59,8 @@ public class WxMenuServiceImpl implements WxMenuService {
 
         JSONObject twolevelObj3 = new JSONObject();
         twolevelObj3.put("type", "click");
-        twolevelObj3.put("name", "赞一下我们");
-        twolevelObj3.put("key", "V1001_GOOD");
+        twolevelObj3.put("name", "联系我们");
+        twolevelObj3.put("key", "CONTACT_US");
 
         JSONArray twolevelMenu = new JSONArray();
         twolevelMenu.add(twolevelObj1);
