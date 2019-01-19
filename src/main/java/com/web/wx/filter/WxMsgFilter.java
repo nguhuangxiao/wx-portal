@@ -26,7 +26,8 @@ public class WxMsgFilter extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String xmlString = WxService.doService(req);
-        PrintWriter out= res.getWriter();
+        System.out.println(xmlString);
+        PrintWriter out = res.getWriter();
         out.print(xmlString);
         out.close();
     }

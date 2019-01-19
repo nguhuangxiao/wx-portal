@@ -12,5 +12,5 @@ public class WxMsgTextDto extends WxMsgBase {
 
     public String Content;
 
-    public long MsgId ;
+    public String MsgId ;
 }

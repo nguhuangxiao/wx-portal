@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import com.web.wx.dto.WxMsgEventDto;
 import com.web.wx.dto.WxMsgTextDto;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -27,75 +28,29 @@ import java.util.regex.Pattern;
  */
 public class WxMessageUtil {
 
-    /**
-     * text
-     */
-    public static final String RESP_MESSAGE_TYPE_TEXT = "text";
+    public static final String MESSAGE_TEXT = "text";
 
-    /**
-     * music
-     */
-    public static final String RESP_MESSAGE_TYPE_MUSIC = "music";
+    public static final String MESSAGE_IMAGE = "image";
 
-    /**
-     * news
-     */
-    public static final String RESP_MESSAGE_TYPE_NEWS = "news";
+    public static final String MESSAGE_LINK = "link";
 
-    /**
-     * text
-     */
-    public static final String REQ_MESSAGE_TYPE_TEXT = "text";
+    public static final String MESSAGE_LOCATION = "location";
 
-    /**
-     * image
-     */
-    public static final String REQ_MESSAGE_TYPE_IMAGE = "image";
+    public static final String MESSAGE_VOICE = "voice";
 
-    /**
-     * link
-     */
-    public static final String REQ_MESSAGE_TYPE_LINK = "link";
+    public static final String MESSAGE_VIDEO = "video";
 
-    /**
-     * location
-     */
-    public static final String REQ_MESSAGE_TYPE_LOCATION = "location";
+    public static final String MESSAGE_SHORTVIDEO = "shortvideo";
 
-    /**
-     * voice
-     */
-    public static final String REQ_MESSAGE_TYPE_VOICE = "voice";
+    public static final String MESSAGE_EVENT = "event";
 
-    /**
-     * video
-     */
-    public static final String REQ_MESSAGE_TYPE_VIDEO = "video";
-
-    /**
-     * shortvideo
-     */
-    public static final String REQ_MESSAGE_TYPE_SHORTVIDEO = "shortvideo";
-
-    /**
-     * event
-     */
-    public static final String REQ_MESSAGE_TYPE_EVENT = "event";
-
-    /**
-     * subscribe
-     */
     public static final String EVENT_TYPE_SUBSCRIBE = "subscribe";
 
-    /**
-     * unsubscribe
-     */
     public static final String EVENT_TYPE_UNSUBSCRIBE = "unsubscribe";
 
-    /**
-     * CLICK
-     */
     public static final String EVENT_TYPE_CLICK = "CLICK";
+
+    public static final String EVENT_TYPE_VIEW = "VIEW";
 
 
 
@@ -138,7 +93,7 @@ public class WxMessageUtil {
         return messageMap;
     }
 
-    public static String textMessageToXml(WxMsgTextDto msg) {
+    public static String textMessageToXml(WxMsgEventDto msg) {
         xstream.alias("xml", msg.getClass());
         return xstream.toXML(msg);
     }
@@ -194,6 +149,27 @@ public class WxMessageUtil {
         }
 
     });
+
+    public static String resSubscribeMsg() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("黄潇申请的公众号,");
+        sb.append("为了全栈的目标,");
+        sb.append("欢迎体验!");
+        return sb.toString();
+    }
+
+    public static String resMsgXml(Map<String, String> message, String content) {
+        WxMsgEventDto msgDto = new WxMsgEventDto();
+        msgDto.setToUserName(message.get("ToUserName"));
+        msgDto.setFromUserName(message.get("FromUserName"));
+        msgDto.setMsgType(message.get("MsgType"));
+        msgDto.setContent(content);
+        msgDto.setCreateTime(System.currentTimeMillis());
+        if(message.get("MsgId") != null) {
+            msgDto.setMsgId(message.get("MsgId"));
+        }
+        return textMessageToXml(msgDto);
+    }
 
 
 }

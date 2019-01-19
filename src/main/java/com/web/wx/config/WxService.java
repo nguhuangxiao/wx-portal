@@ -1,5 +1,6 @@
 package com.web.wx.config;
 
+import com.web.wx.dto.WxMsgEventDto;
 import com.web.wx.dto.WxMsgTextDto;
 import com.web.wx.util.WxMessageUtil;
 
@@ -24,32 +25,28 @@ public class WxService {
         String xml = "";
 
         Map<String, String> message = WxMessageUtil.parseXml(request);
-        String messageType = message.get("MsgType");
 
-        System.out.println("ToUserName：" + message.get("ToUserName"));
-        System.out.println("FromUserName：" + message.get("FromUserName"));
-        System.out.println("CreateTime：" + message.get("CreateTime"));
-        System.out.println("MsgType：" + message.get("MsgType"));
-        System.out.println("Content：" + message.get("Content"));
-        System.out.println("MsgId：" + message.get("MsgId"));
-
-        String content = message.get("Content");
-
-        WxMsgTextDto msgDto = new WxMsgTextDto();
-        msgDto.setToUserName(message.get("FromUserName"));
-        msgDto.setFromUserName(message.get("ToUserName"));
-        msgDto.setCreateTime(System.currentTimeMillis());
-        msgDto.setContent(content);
-        msgDto.setMsgType(messageType);
-
-        xml = WxMessageUtil.textMessageToXml(msgDto);
+        String event = message.get("Event");
+        String msgType = message.get("MsgType");
 
 
+        //推送事件
+        if(msgType.equals(WxMessageUtil.MESSAGE_EVENT)) {
+            //首次关注
+            if(event.equals(WxMessageUtil.EVENT_TYPE_SUBSCRIBE)) {
+                System.out.println("********************ceshi*************");
+                String msg = WxMessageUtil.resSubscribeMsg();
+                xml = WxMessageUtil.resMsgXml(message, msg);
+                return xml;
+            }else{
+                return xml;
+            }
+        }else{
+            xml = WxMessageUtil.resMsgXml(message, "测试");
+            return xml;
+        }
 
-        System.out.println("xml:"+xml);
 
-
-        return xml;
     }
 
 }
