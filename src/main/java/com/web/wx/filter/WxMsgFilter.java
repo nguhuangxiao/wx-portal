@@ -20,17 +20,24 @@ public class WxMsgFilter extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req,resp);
+        //doPost(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String xmlString = WxService.doService(req);
-        System.out.println(xmlString);
+        //输入格式，否则会出现?错误
+        req.setCharacterEncoding("UTF-8");
+        res.setCharacterEncoding("UTF-8");
         PrintWriter out = res.getWriter();
-        out.print(xmlString);
-        out.close();
+        try{
+            //处理消息
+            String xmlString = WxService.doService(req);
+            out.print(xmlString);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.close();
+        }
     }
-
 
 }

@@ -56,25 +56,22 @@ public class WxMessageUtil {
 
     public static Map<String,String> parseXml(HttpServletRequest request){
 
-        Map<String,String> messageMap=new HashMap<String, String>();
-
-        InputStream inputStream=null;
+        Map<String,String> messageMap = new HashMap<String, String>();
+        InputStream inputStream = null;
         try {
             //读取request Stream信息
-            inputStream=request.getInputStream();
+            inputStream = request.getInputStream();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         SAXReader reader = new SAXReader();
-        Document document=null;
+        Document document = null;
         try {
             document = reader.read(inputStream);
         } catch (DocumentException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
 
         Element root=document.getRootElement();
         List<Element> elementsList=root.elements();
@@ -152,17 +149,24 @@ public class WxMessageUtil {
 
     public static String resSubscribeMsg() {
         StringBuffer sb = new StringBuffer();
-        sb.append("黄潇申请的公众号,");
-        sb.append("为了全栈的目标,");
-        sb.append("欢迎体验!");
+        sb.append("\ue418你终于来了，等你很久咯～\n");
+        sb.append("\n");
+        sb.append("\n");
+        sb.append("这里有：\n");
+        sb.append("\ue118领不完的福利红包；\n");
+        sb.append("\ue112最火爆的优惠活动；\n");
+        sb.append("\ue40a还有很爱你的小美；\n");
+        sb.append("\n");
+        sb.append("\n");
+        sb.append("点击下方【每日福利】\ue310 菜单看一下小美给你准备的福利吧～\n");
         return sb.toString();
     }
 
     public static String resMsgXml(Map<String, String> message, String content) {
         WxMsgEventDto msgDto = new WxMsgEventDto();
-        msgDto.setToUserName(message.get("ToUserName"));
-        msgDto.setFromUserName(message.get("FromUserName"));
-        msgDto.setMsgType(message.get("MsgType"));
+        msgDto.setToUserName(message.get("FromUserName"));
+        msgDto.setFromUserName(message.get("ToUserName"));
+        msgDto.setMsgType(MESSAGE_TEXT);
         msgDto.setContent(content);
         msgDto.setCreateTime(System.currentTimeMillis());
         if(message.get("MsgId") != null) {
