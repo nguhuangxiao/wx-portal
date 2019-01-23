@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
-import com.web.wx.dto.MsgTextDto;
+import com.web.wx.dto.*;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -32,6 +32,8 @@ public class WxMessageUtil {
     public static final String MESSAGE_IMAGE = "image";
 
     public static final String MESSAGE_NEWS = "news";
+
+    public static final String MESSAGE_MUSIC = "music";
 
     public static final String MESSAGE_LINK = "link";
 
@@ -90,11 +92,6 @@ public class WxMessageUtil {
         return messageMap;
     }
 
-    public static String textMessageToXml(MsgTextDto msg) {
-        xstream.alias("xml", msg.getClass());
-        return xstream.toXML(msg);
-    }
-
     private static XStream xstream = new XStream(new XppDriver() {
         public HierarchicalStreamWriter createWriter(Writer out) {
             return new PrettyPrintWriter(out) {
@@ -102,7 +99,7 @@ public class WxMessageUtil {
                 @SuppressWarnings("unchecked")
                 public void startNode(String name, Class clazz) {
 
-                    if (!name.equals("xml")) {
+                    if (!name.equals("xml") && !name.equals("item")) {
                         char[] arr = name.toCharArray();
                         if (arr[0] >= 'a' && arr[0] <= 'z') {
                             // arr[0] -= 'a' - 'A';
@@ -110,14 +107,11 @@ public class WxMessageUtil {
                         }
                         name = new String(arr);
                     }
-
                     super.startNode(name, clazz);
-
                 }
 
                 @Override
                 public void setValue(String text) {
-
                     if (text != null && !"".equals(text)) {
                         Pattern patternInt = Pattern
                             .compile("[0-9]*(\\.?)[0-9]*");
@@ -133,7 +127,6 @@ public class WxMessageUtil {
                 }
 
                 protected void writeText(QuickWriter writer, String text) {
-
                     if (cdata) {
                         writer.write("<![CDATA[");
                         writer.write(text);
@@ -181,55 +174,64 @@ public class WxMessageUtil {
         return sb.toString();
     }
 
+    public static void setBaseDto() {
+
+    }
+
     /**
      * 文本回复
-     * @param message
-     * @param content
+     * @param msgDto
      * @return
      */
-    public static String resTextXml(Map<String, String> message, String content) {
-        MsgTextDto msgDto = new MsgTextDto();
+    public static String resTextXml(Map<String, String> message, MsgTextDto msgDto) {
         msgDto.setToUserName(message.get("FromUserName"));
         msgDto.setFromUserName(message.get("ToUserName"));
+        msgDto.setCreateTime(System.currentTimeMillis());
         msgDto.setMsgType(MESSAGE_TEXT);
-        msgDto.setContent(content);
-        msgDto.setCreateTime(System.currentTimeMillis());
-        if(message.get("MsgId") != null) {
-            msgDto.setMsgId(message.get("MsgId"));
-        }
-        return textMessageToXml(msgDto);
+        xstream.alias("xml", msgDto.getClass());
+        return xstream.toXML(msgDto);
     }
 
     /**
-     * 图片回复
+     * 图片
      * @param message
-     * @param content
+     * @param msgDto
      * @return
      */
-    public static String resImageXml(Map<String, String> message, String content) {
-        MsgTextDto msgDto = new MsgTextDto();
+    public static String resImageXml(Map<String, String> message, MsgImageDto msgDto) {
         msgDto.setToUserName(message.get("FromUserName"));
         msgDto.setFromUserName(message.get("ToUserName"));
+        msgDto.setCreateTime(System.currentTimeMillis());
         msgDto.setMsgType(MESSAGE_IMAGE);
-        msgDto.setCreateTime(System.currentTimeMillis());
-        msgDto.setMsgId(message.get("MsgId"));
-        return textMessageToXml(msgDto);
+        xstream.alias("xml", msgDto.getClass());
+        return xstream.toXML(msgDto);
     }
 
     /**
-     * 图文回复
+     * 图文
      * @param message
-     * @param content
+     * @param msgDto
      * @return
      */
-    public static String resNewsXml(Map<String, String> message, String content) {
-        MsgTextDto msgDto = new MsgTextDto();
+    public static String resNewsXml(Map<String, String> message, MsgNewsDto msgDto) {
         msgDto.setToUserName(message.get("FromUserName"));
         msgDto.setFromUserName(message.get("ToUserName"));
-        msgDto.setMsgType(MESSAGE_NEWS);
         msgDto.setCreateTime(System.currentTimeMillis());
-        msgDto.setMsgId(message.get("MsgId"));
-        return textMessageToXml(msgDto);
+        msgDto.setMsgType(MESSAGE_NEWS);
+        xstream.alias("xml", msgDto.getClass());
+        xstream.alias("item", new NewsDto().getClass());
+        return xstream.toXML(msgDto);
     }
+
+    public static String resMusicXml(Map<String, String> message, MsgMusicDto msgDto) {
+        msgDto.setToUserName(message.get("FromUserName"));
+        msgDto.setFromUserName(message.get("ToUserName"));
+        msgDto.setCreateTime(System.currentTimeMillis());
+        msgDto.setMsgType(MESSAGE_MUSIC);
+        xstream.alias("xml", msgDto.getClass());
+        return xstream.toXML(msgDto);
+    }
+
+
 
 }

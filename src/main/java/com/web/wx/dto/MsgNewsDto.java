@@ -10,10 +10,10 @@ import java.util.List;
  * @Date: 2019/1/22
  */
 @Data
-public class MsgNewsListDto extends MsgBaseDto {
+public class MsgNewsDto extends MsgBaseDto {
 
     private Integer ArticleCount;
 
-    private List<MsgNewDto> Articles;
+    private List<NewsDto> Articles;
 
 }

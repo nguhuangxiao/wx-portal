@@ -8,11 +8,11 @@ import lombok.Data;
  * @Date: 2019/1/22
  */
 @Data
-public class MsgNewDto {
+public class NewsDto {
 
     private String Title;
 
-    private String Descripition;
+    private String Description;
 
     private String PicUrl;
 

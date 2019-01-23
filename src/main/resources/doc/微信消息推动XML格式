@@ -1,0 +1,36 @@
+【文字】
+<xml>
+  <Content><![CDATA[]]></Content>
+  <MsgId>6649605450700154978</MsgId>
+  <ToUserName><![CDATA[ofYhr1D7H7UEYHTEqhpqvndXM4Ro]]></ToUserName>
+  <FromUserName><![CDATA[gh_c9db36526b24]]></FromUserName>
+  <CreateTime>1548231918324</CreateTime>
+  <MsgType><![CDATA[text]]></MsgType>
+</xml>
+
+
+【图片】
+<xml>
+  <Image>
+    <MediaId><![CDATA[lKc6zZvr5mxs7Vak_dUKuQIlhB9ENhSgixbmBC5qj4BM8dlBSbH2qFEofgBwcBdg]]></MediaId>
+  </Image>
+  <ToUserName><![CDATA[ofYhr1D7H7UEYHTEqhpqvndXM4Ro]]></ToUserName>
+  <FromUserName><![CDATA[gh_c9db36526b24]]></FromUserName>
+  <CreateTime>1548226967668</CreateTime>
+  <MsgType><![CDATA[image]]></MsgType>
+</xml>
+
+【音乐】
+<xml>
+  <Music>
+    <Title><![CDATA[测试音乐]]></Title>
+    <Description><![CDATA[一首好歌]]></Description>
+    <MusicUrl><![CDATA[http://www.ytmp3.cn/down/57410.mp3]]></MusicUrl>
+    <HQMusicUrl><![CDATA[http://www.ytmp3.cn/down/57410.mp3]]></HQMusicUrl>
+    <ThumbMediaId><![CDATA[lKc6zZvr5mxs7Vak_dUKuQIlhB9ENhSgixbmBC5qj4BM8dlBSbH2qFEofgBwcBdg]]></ThumbMediaId>
+  </Music>
+  <ToUserName><![CDATA[ofYhr1D7H7UEYHTEqhpqvndXM4Ro]]></ToUserName>
+  <FromUserName><![CDATA[gh_c9db36526b24]]></FromUserName>
+  <CreateTime>1548231735104</CreateTime>
+  <MsgType><![CDATA[music]]></MsgType>
+</xml>
