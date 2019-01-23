@@ -1,5 +1,6 @@
 package com.web.wx.controller;
 
+import com.web.wx.config.WxService;
 import com.web.wx.service.WxConfigService;
 import com.web.wx.util.CheckUtil;
 import com.web.wx.util.Res;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Description:
@@ -36,6 +39,7 @@ public class WxconfigController {
                          @RequestParam("timestamp") String timestamp,
                          @RequestParam("nonce") String nonce,
                          @RequestParam("echostr") String echostr) {
+
         //排序
         String sortString = CheckUtil.sort(timestamp, nonce);
         //加密
@@ -50,9 +54,25 @@ public class WxconfigController {
         }
     }
 
+    /**
+     * 更新access_token
+     * @return
+     */
     @RequestMapping(value = "/updateToken", method = RequestMethod.GET)
     public Res updateToken() {
         wxConfigService.updateAccessToken();
         return null;
     }
+
+    /**
+     * 推送消息
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "portal", method = RequestMethod.POST)
+    public String portal(HttpServletRequest request) {
+        return WxService.doService(request);
+    }
+
+
 }

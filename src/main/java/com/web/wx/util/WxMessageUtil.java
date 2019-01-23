@@ -5,14 +5,13 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
-import com.web.wx.dto.WxMsgEventDto;
-import com.web.wx.dto.WxMsgTextDto;
+import com.web.wx.dto.MsgTextDto;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
@@ -31,6 +30,8 @@ public class WxMessageUtil {
     public static final String MESSAGE_TEXT = "text";
 
     public static final String MESSAGE_IMAGE = "image";
+
+    public static final String MESSAGE_NEWS = "news";
 
     public static final String MESSAGE_LINK = "link";
 
@@ -54,7 +55,7 @@ public class WxMessageUtil {
 
 
 
-    public static Map<String,String> parseXml(HttpServletRequest request){
+    public static Map<String,String> parseXml(ServletRequest request){
 
         Map<String,String> messageMap = new HashMap<String, String>();
         InputStream inputStream = null;
@@ -68,12 +69,11 @@ public class WxMessageUtil {
         Document document = null;
         try {
             document = reader.read(inputStream);
-        } catch (DocumentException e) {
+        }
+        catch (DocumentException e) {
             e.printStackTrace();
         }
-
-
-        Element root=document.getRootElement();
+        Element root = document.getRootElement();
         List<Element> elementsList=root.elements();
 
         for(Element e:elementsList){
@@ -90,7 +90,7 @@ public class WxMessageUtil {
         return messageMap;
     }
 
-    public static String textMessageToXml(WxMsgEventDto msg) {
+    public static String textMessageToXml(MsgTextDto msg) {
         xstream.alias("xml", msg.getClass());
         return xstream.toXML(msg);
     }
@@ -162,8 +162,33 @@ public class WxMessageUtil {
         return sb.toString();
     }
 
-    public static String resMsgXml(Map<String, String> message, String content) {
-        WxMsgEventDto msgDto = new WxMsgEventDto();
+    public static String resTemplateMsg() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("您好！我是美团客服小美\n");
+        sb.append("定外卖请尝试回复：饿\n");
+        sb.append("住酒店请尝试回复：困\n");
+        sb.append("看电影请尝试回复：看\n");
+        sb.append("想旅游请尝试回复：游\n");
+        sb.append("要唱歌请尝试回复：唱\n");
+        sb.append("要美容请尝试回复：美\n");
+        sb.append("要购物请尝试回复：买\n");
+        sb.append("想要玩请尝试回复：玩\n");
+        sb.append("按摩服务尝试回复：脚\n");
+        sb.append("洗车服务尝试回复：车\n");
+        sb.append("按摩服务尝试回复：脚\n");
+        sb.append("查看新品尝试回复：新\n");
+        sb.append("如有其它问题请拨打人工客服电话：10107888\n");
+        return sb.toString();
+    }
+
+    /**
+     * 文本回复
+     * @param message
+     * @param content
+     * @return
+     */
+    public static String resTextXml(Map<String, String> message, String content) {
+        MsgTextDto msgDto = new MsgTextDto();
         msgDto.setToUserName(message.get("FromUserName"));
         msgDto.setFromUserName(message.get("ToUserName"));
         msgDto.setMsgType(MESSAGE_TEXT);
@@ -175,5 +200,36 @@ public class WxMessageUtil {
         return textMessageToXml(msgDto);
     }
 
+    /**
+     * 图片回复
+     * @param message
+     * @param content
+     * @return
+     */
+    public static String resImageXml(Map<String, String> message, String content) {
+        MsgTextDto msgDto = new MsgTextDto();
+        msgDto.setToUserName(message.get("FromUserName"));
+        msgDto.setFromUserName(message.get("ToUserName"));
+        msgDto.setMsgType(MESSAGE_IMAGE);
+        msgDto.setCreateTime(System.currentTimeMillis());
+        msgDto.setMsgId(message.get("MsgId"));
+        return textMessageToXml(msgDto);
+    }
+
+    /**
+     * 图文回复
+     * @param message
+     * @param content
+     * @return
+     */
+    public static String resNewsXml(Map<String, String> message, String content) {
+        MsgTextDto msgDto = new MsgTextDto();
+        msgDto.setToUserName(message.get("FromUserName"));
+        msgDto.setFromUserName(message.get("ToUserName"));
+        msgDto.setMsgType(MESSAGE_NEWS);
+        msgDto.setCreateTime(System.currentTimeMillis());
+        msgDto.setMsgId(message.get("MsgId"));
+        return textMessageToXml(msgDto);
+    }
 
 }

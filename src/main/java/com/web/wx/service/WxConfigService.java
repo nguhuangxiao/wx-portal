@@ -16,4 +16,5 @@ public interface WxConfigService {
     /** 更新access_token **/
     String updateAccessToken();
 
+
 }

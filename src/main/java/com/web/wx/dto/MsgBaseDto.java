@@ -8,7 +8,7 @@ import lombok.Data;
  * @Date: 2019/1/18
  */
 @Data
-public class WxMsgBase {
+public class MsgBaseDto {
 
     /**
      * 开发者微信号

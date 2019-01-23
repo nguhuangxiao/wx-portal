@@ -41,7 +41,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     public void addInterceptors(InterceptorRegistry registry) {
 
-        System.out.println("111");
 
         InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
 
