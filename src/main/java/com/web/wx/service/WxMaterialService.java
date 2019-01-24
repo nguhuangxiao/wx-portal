@@ -1,5 +1,10 @@
 package com.web.wx.service;
 
+import com.web.wx.dto.MaterialDto;
+import com.web.wx.dto.MaterialListDto;
+import com.web.wx.req.MaterialReq;
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * @Description:
  * @Author: nguhuangxiao
@@ -8,13 +13,13 @@ package com.web.wx.service;
 public interface WxMaterialService {
 
     /** 新增临时素材 **/
-    String addTemporary();
+    String addTemporary(MultipartFile file);
 
     /** 临时素材列表 **/
     String temporaryList();
 
     /** 新增永久列表 **/
-    String addPermanent();
+    String addPermanent(MaterialReq materialReq);
 
     /** 永久素材列表 **/
     String permanentList();

@@ -38,21 +38,31 @@ public class WxRes<T> {
         return wxResDto;
     }
 
-    public static WxRes buildOk(Object result) {
+    public static WxRes<?> build(Integer code, String status, Object result, String message) {
         WxRes wxRes = new WxRes();
-        wxRes.setCode(0);
-        wxRes.setStatus(OK);
+        wxRes.setCode(code);
+        wxRes.setStatus(status);
         wxRes.setResult(result);
+        wxRes.setMessage(message);
         return wxRes;
     }
 
-    public static WxRes buildFail(Object result) {
-        WxRes wxRes = new WxRes();
-        wxRes.setCode(-1);
-        wxRes.setStatus(FAIL);
-        wxRes.setResult(result);
-        return wxRes;
+    public static WxRes buildOk(String msg) {
+        return build(0, OK, null, msg);
     }
+
+    public static WxRes buildOk(Object result) {
+        return build(0, OK, result, null);
+    }
+
+    public static WxRes buildFail(String msg) {
+        return build(-1, FAIL, null, msg);
+    }
+
+    public static WxRes buildFail(Object result) {
+        return build(-1, FAIL, result, null);
+    }
+
 
     public static WxRes buildRes(String resStr) {
         JSONObject res = JSONObject.parseObject(resStr);
