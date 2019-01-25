@@ -17,6 +17,7 @@
 *.ipr
 
 ### NetBeans ###
+/node_modules
 /nbproject/private/
 /build/
 /nbbuild/
