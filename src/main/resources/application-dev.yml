@@ -22,6 +22,8 @@ wechat:
   appSecret: 010c9ce1c550429f5b9a4dbef6f08709
   openAppId:
   openAppSecret:
+  AgentId: 1000002
+  Secret: ptnQ_d3tqrxIZVQw6Bj5CHAuqhcUYji8KfADDoIm3Cg
 
 
 projectUrl:
