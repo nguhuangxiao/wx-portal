@@ -13,7 +13,11 @@ import java.util.List;
  * @Date: 2019/1/24
  */
 @Data
-public class MaterialReq {
+public class MaterialListReq {
+
+    private String media_id;
+
+    private int index;
 
     @NotNull
     @ApiModelProperty(value = "素材", required = true)

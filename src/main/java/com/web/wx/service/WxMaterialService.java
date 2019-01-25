@@ -1,8 +1,8 @@
 package com.web.wx.service;
 
-import com.web.wx.dto.MaterialDto;
-import com.web.wx.dto.MaterialListDto;
-import com.web.wx.req.MaterialReq;
+import com.web.wx.req.MaterialItemReq;
+import com.web.wx.req.MaterialListReq;
+import com.web.wx.req.NewsReq;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -15,14 +15,17 @@ public interface WxMaterialService {
     /** 新增临时素材 **/
     String addTemporary(MultipartFile file);
 
-    /** 临时素材列表 **/
-    String temporaryList();
+    /** 新增永久素材 **/
+    String addPermanent(MultipartFile file);
 
-    /** 新增永久列表 **/
-    String addPermanent(MaterialReq materialReq);
+    /** 下载素材（临时和永久）**/
+    String downLoad();
 
-    /** 永久素材列表 **/
-    String permanentList();
+    /** 新增修改图文 **/
+    String updateNews(Object materialDto, int type);
+
+    /** 图文列表 **/
+    String list(NewsReq newsReq);
 
     /** 删除**/
     String deletePermanent();

@@ -1,9 +1,9 @@
 package com.web.wx.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.web.wx.dto.MaterialDto;
-import com.web.wx.dto.MaterialListDto;
-import com.web.wx.req.MaterialReq;
+import com.web.wx.req.MaterialItemReq;
+import com.web.wx.req.MaterialListReq;
+import com.web.wx.req.NewsReq;
 import com.web.wx.service.WxConfigService;
 import com.web.wx.service.WxMaterialService;
 import com.web.wx.util.WxUtil;
@@ -25,19 +25,27 @@ public class WxMaterialServiceImpl implements WxMaterialService {
     @Autowired
     private WxConfigService wxConfigService;
 
+    /** 上传临时素材 **/
     private final String API_MEDIA_UPLOAD = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s";
 
-    private final String API_MATERIAL_NEWS = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=%s";
+    /** 上传永久素材 **/
+    private final String API_MATERIAL_ADD = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=%s&type=%s";
 
-    @Override
-    public String addTemporary(MultipartFile file) {
+    /** 新增图文 **/
+    private final String API_ADD_NEWS = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=%s";
+
+    /** 修改图文 **/
+    private final String API_UPDATE_NEWS = "https://api.weixin.qq.com/cgi-bin/material/update_news?access_token=%s";
+
+    /** 图文列表 **/
+    private final String API_NEWS_LIST = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=%s";
+
+    /** 素材总数 **/
+    private final String API_MATERIAL_TOTLE = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=%s";
+
+
+    public static String uploadMaterial(MultipartFile file, String url) {
         String result;
-        String token = wxConfigService.updateAccessToken();
-        String url = String.format(
-            API_MEDIA_UPLOAD,
-            token,
-            "image"
-        );
         try {
             WxUtil wxUtil = new WxUtil();
             result = wxUtil.upload(file, url);
@@ -49,32 +57,66 @@ public class WxMaterialServiceImpl implements WxMaterialService {
     }
 
     @Override
-    public String temporaryList() {
-        String result;
+    public String addTemporary(MultipartFile file) {
         String token = wxConfigService.updateAccessToken();
         String url = String.format(
-            API_MATERIAL_NEWS,
-            token
+            API_MEDIA_UPLOAD,
+            token,
+            "image"
         );
-        return null;
+        return uploadMaterial(file, url);
     }
 
     @Override
-    public String addPermanent(MaterialReq materialReq) {
+    public String addPermanent(MultipartFile file) {
+        String result;
         String token = wxConfigService.updateAccessToken();
         String url = String.format(
-            API_MATERIAL_NEWS,
+            API_MATERIAL_ADD,
+            token,
+            "image"
+        );
+        return uploadMaterial(file, url);
+    }
+
+    @Override
+    public String downLoad() {
+        return null;
+    }
+
+
+    @Override
+    public String updateNews(Object materialItemReq, int type) {
+        String token = wxConfigService.updateAccessToken();
+        String api = (type == 0) ?  API_ADD_NEWS : API_UPDATE_NEWS;
+        String url = String.format(
+            api,
             token
         );
-        String params = JSONObject.toJSONString(materialReq);
+        String params = JSONObject.toJSONString(materialItemReq);
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.postForObject(url, params, String.class);
         return result;
     }
 
+
     @Override
-    public String permanentList() {
-        return null;
+    public String list(NewsReq newsReq) {
+        String result;
+        String token = wxConfigService.updateAccessToken();
+        String url = String.format(
+            API_NEWS_LIST,
+            token
+        );
+        String params = JSONObject.toJSONString(newsReq);
+        RestTemplate restTemplate = new RestTemplate();
+        String json = restTemplate.postForObject(url, params, String.class);
+        try {
+            result = new String(json.getBytes("ISO-8859-1"), "UTF-8");
+        }catch (IOException e) {
+            result = "";
+        }
+        return result;
     }
 
     @Override
@@ -89,7 +131,15 @@ public class WxMaterialServiceImpl implements WxMaterialService {
 
     @Override
     public String getTotle() {
-        return null;
+        String result;
+        String token = wxConfigService.updateAccessToken();
+        String url = String.format(
+            API_MATERIAL_TOTLE,
+            token
+        );
+        RestTemplate restTemplate = new RestTemplate();
+        result = restTemplate.getForObject(url, String.class);
+        return result;
     }
 
     @Override

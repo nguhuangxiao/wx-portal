@@ -11,27 +11,23 @@ import lombok.Data;
 @Data
 public class MaterialDto {
 
-    private String title;
-
-    private String thumbMediaId;
-
     private String author;
 
     /** 图文消息的摘要 **/
     private String digest;
 
     /** 封面 **/
-    private Boolean showCoverPic;
+    private Boolean show_cover_pic;
 
     private String content;
 
     /** 阅读原文 **/
-    private String contentSourceUrl;
+    private String content_source_url;
 
     /** 打开评论 **/
-    private Boolean needOpenComment;
+    private Boolean need_open_comment;
 
     /** 粉丝评论 **/
-    private Boolean onlyFansCanComment;
+    private Boolean only_fans_can_comment;
 
 }
