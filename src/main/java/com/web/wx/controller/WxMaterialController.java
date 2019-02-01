@@ -47,6 +47,13 @@ public class WxMaterialController {
         return WxRes.buildRes(msg);
     }
 
+    @RequestMapping(value = "/getFile", method = RequestMethod.GET)
+    public WxRes getFile(@RequestParam(value = "type") String type, @RequestParam(value = "mediaId") String mediaId) {
+        String msg = wxMaterialService.downLoad(type, mediaId);
+        return WxRes.buildRes(msg);
+    }
+
+
     @RequestMapping(value = "/addNews", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public WxRes addNews(@RequestBody @Valid MaterialListReq materialListReq, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {

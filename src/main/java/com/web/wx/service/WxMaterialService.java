@@ -19,7 +19,7 @@ public interface WxMaterialService {
     String addPermanent(MultipartFile file);
 
     /** 下载素材（临时和永久）**/
-    String downLoad();
+    String downLoad(String type, String mediaId);
 
     /** 新增修改图文 **/
     String updateNews(Object materialDto, int type);

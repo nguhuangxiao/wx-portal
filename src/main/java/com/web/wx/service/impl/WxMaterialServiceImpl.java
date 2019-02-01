@@ -28,8 +28,14 @@ public class WxMaterialServiceImpl implements WxMaterialService {
     /** 上传临时素材 **/
     private final String API_MEDIA_UPLOAD = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s";
 
+    /** 下载临时素材 **/
+    private final String API_MEDIA_GET = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=%s&media_id=%s";
+
     /** 上传永久素材 **/
     private final String API_MATERIAL_ADD = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=%s&type=%s";
+
+    /** 下载永久素材 **/
+    private final String API_MATERIAL_GET = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=%s";
 
     /** 新增图文 **/
     private final String API_ADD_NEWS = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=%s";
@@ -80,8 +86,20 @@ public class WxMaterialServiceImpl implements WxMaterialService {
     }
 
     @Override
-    public String downLoad() {
-        return null;
+    public String downLoad(String type, String mediaId) {
+        String token = wxConfigService.updateAccessToken();
+        RestTemplate restTemplate = new RestTemplate();
+        if("0".equals(type)) {
+            String url = String.format(
+                API_MEDIA_GET,
+                token,
+                mediaId
+            );
+            String result = restTemplate.getForObject(url, String.class);
+            return result;
+        }else{
+            return null;
+        }
     }
 
 
